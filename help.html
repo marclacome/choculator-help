@@ -1,5 +1,5 @@
 <!--
-    before git push, replace all "https://localhost/choculator-help
+    before git push, replace all "https://admin.chocolateemporium.com/choculator-help
     with
     "https://admin.chocolateemporium.com/choculator-help
 -->
@@ -8,18 +8,22 @@
 
 <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="https://admin.chocolateemporium.com/choculator-help//help.css">
+    <link rel="stylesheet" type="text/css" href="http://localhost/choculator-help//help.css">
 </head>
 
 <body>
     <div class="row">
         <div class="col-12">
             <a id="top"><h4>Shopify Editable Items</h4></a>
+            <div class="help-text">IMPORTANT - change only the items listed below. Other theme settings should never be edited!</div>
         </div>
     </div>
     <div class="row">
         <div class="col-12 menu-item">
             <a href="#settings">Finding the Settings</a>
+        </div>
+        <div class="col-12 menu-item">
+            <a href="#seasonal_header">Seasonal Header</a>
         </div>
         <div class="col-12 menu-item">
             <a href="#slideshow">Home page slideshow</a>
@@ -75,10 +79,30 @@
     </div>
     <div class="row">
         <div class="col-12">
+            <a id="seasonal_header"><h4>Seasonal Header (admin - settings)</h4></a>
+        </div>
+        <div class="col-12">
+            <div class="help-image-info">Image Size: 500 x 26 px (image background purple 1)</div>
+        </div>
+    <div class="col-6">
+        <div class="help-image"><img src="http://localhost/choculator-help//seasonal_header.png"></div>
+    </div>
+    <div class="col-6">
+        <ul>
+            <li>Select the image</li>
+            <li>Link - The page which will be displayed when the image is clicked</li>
+        </ul>
+    </div>
+</div>
+<div class="row">
+        <div class="col-12">
             <a id="slideshow"><h4>Slideshow (admin - settings)</h4></a>
         </div>
+        <div class="col-12">
+            <div class="help-image-info">Image Size: 800 x 790 px</div>
+        </div>
         <div class="col-6">
-            <div class="help-image"><img src="https://admin.chocolateemporium.com/choculator-help/slideshow1.png"></div>
+            <div class="help-image"><img src="http://localhost/choculator-help/slideshow2.png"></div>
         </div>
         <div class="col-6">
             <ul>
@@ -87,7 +111,7 @@
                 <li>Enable (include or don't include this image in the slideshow)</li>
                 <li>The image itself</li>
                 <li>Link URL - The page which will be displayed when the image is clicked</li>
-                <li>Alt Text - a description of the image (for screen readers)</li>
+                <li>Alt Text - a description of the image (for seo and screen readers)</li>
             </ul>
         </div>
     </div>
@@ -124,6 +148,7 @@
         </div>
         <div class="col-6">
             <p class="help-text">This setting for Top Image</p>
+            <div class="help-image-info">Image Size: 900 x 247 px</div>    
             <div class="help-image"><img src="https://admin.chocolateemporium.com/choculator-help//home-page-buttons1.png"></div>
         </div>
         <div class="col-6">
@@ -132,6 +157,7 @@
         </div>
         <div class="col-6">
             <p class="help-text">This setting for Feature Image 1</p>
+            <div class="help-image-info">Image Size: 450 x 223 px</div>    
             <div class="help-image"><img src="https://admin.chocolateemporium.com/choculator-help//home-page-buttons2.png"></div>
         </div>
         <div class="col-6">
@@ -140,6 +166,7 @@
         </div>
         <div class="col-6">
             <p class="help-text">This setting for List Image 1</p>
+            <div class="help-image-info">Image Size: 400 x 69 px</div>    
             <div class="help-image"><img src="https://admin.chocolateemporium.com/choculator-help//home-page-buttons3.png"></div>
         </div>
         <div class="col-6">
@@ -219,6 +246,9 @@
     <div class="row">
         <div class="col-12">
             <a id="collection-banner"><h4>Banner Image top of Collection page (admin-collections)</h4></a>
+            <div class="help-image-info">Pick and Mix Page Image Size: 1920 x 144 px</div>    
+            <div class="help-image-info">All Other Collection Pages Image Size: 360 x 80 px</div>    
+
         </div>
         <div class="col-12">
             <p class="help-text">Set the image for the collection</p>            
