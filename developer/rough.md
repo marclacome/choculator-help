@@ -534,3 +534,22 @@ TODO ***************************************************************************
 + #cart_debug in np_cart_debug.liquid
 + theme.liquid
 
+### CHECKING QUANTITIES  
+The cart contents are monitored whenever the cart is updated to ensure that contents match expectations.  
+This is achieved by the checksObject in attributes/np_checks.js  
+
+The procedure is -   
+In whichever function adjusts cart quantity (either by adding an item or editing quantity of an existing item)
++ getChecksObject().reset()
++ add new item and quantity to the checks Object (calling either checksObject.addPam or checksObject.addNonPam)
++ update the cart 
++ fetch the cart (np_cart.fetchCart)
++ call checksObject.checkCart  
+### checkCart checks
++ pam line item meta (line item quantity must match total count of product allocated to pam bags in line item meta)
++ gitftwrap meta (total count of each giftwrap product listed in line item meta must match the line item quantity for that giftwrap product)
++ line items with 0 quantity (I think this is due to a bug in Shopify - a cart line item can exists with a quantity of 0. It just looks messy for the shopper so these items are removed)
++ quantity purchased (the quantity of each line item added or edited on the most recent graphql call must match the quantity requested in that graphql call. These quantities are added using checksObject.addPam or checksObject.addNonPam as listed above)
+
+
+
