@@ -1,4 +1,18 @@
-DISPLAY PRODUCTS IN PRODUCT GRID
+<link rel="stylesheet" href="./stylesheet.css" />  
+
+[display products in the grid](#product_grid)  
+[buy a product](#buying_products)  
+[cart metadata](#cart_metadata)  
+[giftwrap metadata](#giftwrap_metadata)  
+[vue components](#vue_components)  
+[quantity checking](#quantity_checking)   
+[product search](#product_search)
+
+
+<a id="product_grid">
+</a>
+## DISPLAY PRODUCTS IN PRODUCT GRID
+
 
 There are 4 classes of products 
 + non-pam 
@@ -37,7 +51,8 @@ The "buy button" display contains logic which hides the button and replaces with
 This ensures that products cannot be added to the cart without relevant metadata (if an order is received with metatdata missing it probably means its been added to the wrong collection)  
 
 
-### non pam search
+<a id="product_search">  
+<h3>non pam search  </h3>
 locates to /pages/search-results?title=" + search;  
 in Shopify, page search results uses template page.search_results  
 which includes np_collection_grid_v  
@@ -57,7 +72,8 @@ in Shopify, page favourites uses template page.favourites
 which includes np_collection_grid_v  
 np-collection-grid-mixin->mounted calls newSearchMounted  
 
-## buy a product from the product grid  
+<a id="buying_products"></a>
+## BUYING PRODUCTS  
 ### NON PAM PRODUCTS  
 Rules for buying a non pam product -   
 If you buy multiple quantity of a product then giftwrap is not offered - products are directly added to cart with metadata for default giftwrap option, and no message.  
@@ -92,6 +108,8 @@ Rules for buying pam products
 If the currently selected pam bag has giftwrap selected, and the giftwrap has an upper size limit, then you can't exceed that limit when adding products to the bag
 
 ### BUY PAM PRODUCT
+[cart pam metadata](#cart_pam_metadata)  
+[cart line item metadata](#cart_pam_line_item_metadata)
 The buy button calls assets/np_buy_funcs/buyPamWithQuantity  
 Creates or updates line attributes and quantity for the item   
 If product already exists in cart then it is removed using Shopify mutation cartLinesRemove  
@@ -113,9 +131,11 @@ Copy a bag from a previous order (snippets/np_order_history_j.liquid) calls asse
 All edit functions edit the cart using Shopify mutation cartLinesUpdate and cartLinesRemove, then query the cart.  
 On response to cart query the internal representation of PAM data is updated.  
 
+<div style="page-break-after: always"></div>
 
 ### CART ATTRIBUTES METADATA
 (Used to store data for giftwrap for pam bags, and gift voucher data)  
+<a id="cart_metadata">cart metadata</a>
 ```json
 cart metadata   
 {  
@@ -126,7 +146,7 @@ cart metadata
 }
 ```
 
-CART PAM METADATA  
+<a id="cart_pam_line_item_metadata">CART PAM LINE ITEM METADATA</a>
 An array of json objects - 1 for each bag.  
 The object struct for a single bag is -   
 ```json
@@ -176,7 +196,8 @@ GIFTWRAP METADATA
     ]
 ```  
 
-PAM BAG METADATA
+<a id="cart_pam_metadata">CART PAM BAG METADATA</a>
+
 ```json
     [
         {
@@ -196,6 +217,7 @@ On response to graphql query
 + calls updateVueCartAndEditableAttributes
 + creates json objects for 3 cart attributes - editablePamAttributes, voucherAttributes and cart_attributes
 
+<a id="giftwrap_metadata"></a>
 ### GIFTWRAP METADATA
 giftwrap metadata is loaded from Shopify as text strings hidden fields.
 np.js initialisation calls the following functions which parse and create json objects for -
@@ -393,6 +415,7 @@ if collection.handle = subscriptions
 + [npOrderHistoryVue](#npOrderHistoryVue)
 
 ### VUE COMPONENTS SOURCE FILES
+<a id="vue_components"></a>
 
 ### PAM COMPONENTS
 
@@ -493,7 +516,7 @@ theme.liquid
 <a id="npSearch">npSearch</a> (incl mobile version)
 + np_search_vj.liquid and np_search_mobile_vj.liquid
 + #header_search_vue in np_search_vj.liquid and #header_search_mobile_vue  in np_search_mobile_vj.liquid
-+ theme.lqiuid
++ theme.liquid
 
 TODO **********************************************************************************************  
 <a id="pamSearchVue">pamSearchVue</a> (used? as a popup?)
@@ -534,6 +557,7 @@ TODO ***************************************************************************
 + #cart_debug in np_cart_debug.liquid
 + theme.liquid
 
+<a id="quantity_checking"></a>
 ### CHECKING QUANTITIES  
 The cart contents are monitored whenever the cart is updated to ensure that contents match expectations.  
 This is achieved by the checksObject in attributes/np_checks.js  
@@ -550,6 +574,8 @@ In whichever function adjusts cart quantity (either by adding an item or editing
 + gitftwrap meta (total count of each giftwrap product listed in line item meta must match the line item quantity for that giftwrap product)
 + line items with 0 quantity (I think this is due to a bug in Shopify - a cart line item can exists with a quantity of 0. It just looks messy for the shopper so these items are removed)
 + quantity purchased (the quantity of each line item added or edited on the most recent graphql call must match the quantity requested in that graphql call. These quantities are added using checksObject.addPam or checksObject.addNonPam as listed above)
+
+
 
 
 

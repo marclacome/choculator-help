@@ -24,6 +24,7 @@ Orders are converted to internal storage format using
 + DB\EBayDBRepository
 
 
+<a id="processing_orders">
 ### Processing Orders
 
 Once download is complete user selects Process Orders.  
