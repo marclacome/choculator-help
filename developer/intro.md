@@ -1,9 +1,18 @@
 <link rel="stylesheet" href="./stylesheet.css" /> 
 
+<a href="intro.md">home</a>
+
 The CE software consists of 3 applications  
 + The shopify store 
 + Choculator
 + Features
+
+<h3>Shopify Overview</h3>
+The code is very customized, and virtually all data access and manipulation uses storefront-api graphql calls.  
+
+<a href='shopify.md'>shopify docs</a>  
+
+<a href='gift_vouchers.md'>gift vouchers docs</a>
 
 
 <a id="choculator">
@@ -22,6 +31,11 @@ The CE software consists of 3 applications
 + Manages gift vouchers for the Shopify store
 + Manages customer requests for notification of out of stock items on the Shopify store
 
+<a href='choculator.md'>choculator docs</a>  
+<a href='choculator_products.md'>choculator products docs</a>  
+<a href='gift_vouchers.md'>gift vouchers docs</a>
+
+
 <a id="features">
 <h3>Features  Overview</h3>
 </a>
@@ -30,6 +44,12 @@ Adds auxiliary functionality to the Shopify store
 + Stores request for notification of out of stock items
 + Stores details of gift voucher purchases
 + Handles shopper product search
+
+
+<a href='features.md'>features docs</a>
+
+<a href='gift_vouchers.md'>gift vouchers docs</a>
+
 
 <h3>Shopify Store Source</h3>
 + github repo chocemporium_shopify

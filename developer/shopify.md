@@ -1,5 +1,7 @@
 <link rel="stylesheet" href="./stylesheet.css" />  
 
+<a href="intro.md">Home</a>
+
 [display products in the grid](#product_grid)  
 [buy a product](#buying_products)  
 [cart metadata](#cart_metadata)  
