@@ -1,5 +1,10 @@
 <link rel="stylesheet" href="./stylesheet.css" /> 
 
+<a href="intro.md">home</a>
+
+
+
+
 ## Overview
 
 The database contains a record of every product which is available on any e-commerce platform (many platforms are not sole on all platforms)
@@ -90,6 +95,28 @@ bags in variety_bags
 product per bag in variety_bag_products
 
 variety bag from order - variety_bag_order_records
+
+<a id="product_ingredients"></a>
+<h3>Ingredients</h3>
+
+The product table contains fields for 
++ ingredients (free text entry)
++ allergens (selected from a list)
++ traces (selected from a list)  
+
+CE set ingredients for a product in /ingredients.  
+Handled by Choc/IngredientsController and IngredientsRepository.  
+
+when order is processed, orders/process-order is sent.  
+Handled by Choc/OrdersController->processOrderCostsAndBatches.  
+This calls EComm/OrderProcessRepository->processOrderCostsAndBatches  
+and IngredientsProcessRepository->setOrderIngredients.  
+This loops through all products in the order and creates arrays of ingredients, allergens and traces and saves them in the order table.
+
+
+
+
+
 
 
 
