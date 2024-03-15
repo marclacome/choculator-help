@@ -71,7 +71,7 @@ If a product is no longer stocked it can be marked as inactive in the active-pro
 <h3>Product SKU</h3>
 Every product must have an sku which uniquely identifies the product on each platform on which it is sold.  
 These are copied from the admin product pages of the platform and copied to Choculator.  
-There are 10 columns in the product table for platform sku's - only 3 are currently used. These are mapped in EComm/EcommOrderConverterRepository->mapSKU(shopify = sku1, amazon = sky2, ebay=sku3)
+There are 10 columns in the product table for platform sku's - only 3 are currently used. These are mapped in EComm/EcommOrderConverterRepository->mapSKU(shopify = sku1, amazon = sku2, ebay=sku3)
 
 <a id="batches"></a>
 <h3>Batches</h3>
@@ -111,7 +111,8 @@ when order is processed, orders/process-order is sent.
 Handled by Choc/OrdersController->processOrderCostsAndBatches.  
 This calls EComm/OrderProcessRepository->processOrderCostsAndBatches  
 and IngredientsProcessRepository->setOrderIngredients.  
-This loops through all products in the order and creates arrays of ingredients, allergens and traces and saves them in the order table.
+This loops through all products in the order and creates arrays of ingredients, allergens and traces and saves them in ingredients column of the order table.  
+For Variety Bags, ingredients are calculated when the order is processed from all products contained in the Variety Bag.
 
 
 
