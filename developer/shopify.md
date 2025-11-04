@@ -16,11 +16,17 @@
 ## DISPLAY PRODUCTS IN PRODUCT GRID
 
 
-There are 4 classes of products 
+There are 5 classes of products 
 + non-pam 
 + pam 
++ personalised gift boxes
 + gift vouchers 
 + subscriptions.
+
+Products are displayed in an infinite scroll grid.
+There are multiple grid templates with functionality for different product classes.
+On navigating to a collection Shopify will load templates/collection.liquid.
+This loads the required grid template (dependant on collection.handle)
 
 ### non pam collections
 npProductGridVue created in np_collection_grid_j  
@@ -28,6 +34,15 @@ includes np-collection-grid-mixin
 
 ### pam collection
 npProductGridVue created in np_collection_pam_grid_j  
+includes np-collection-grid-mixin
+
+### personalised gift boxes
+There are 2 product grids for pgb. 
+np_collection_pgb_main_grid (for the box which products are added to)
+Once a box is selected np_collection_grid is loaded
+np_collection_pgb_main_grid is simple and doesn't use infinite scroll (just uses liquid to list box products - there won't be many)
+Once a box is purchased re-navigate to the collection for the box (the url will contain "-personalised-gift-box")
+npProductGridVue created in np_collection_pgb_grid_v
 includes np-collection-grid-mixin
 
 ### gift vouchers collection
@@ -132,6 +147,16 @@ Delete a bag (snippets\newpam-pambag-cart-expansion-header.liquid and PamBagVue 
 Copy a bag from a previous order (snippets/np_order_history_j.liquid) calls assets/np_bag_edit->copyPreviousOrderPamBag  
 All edit functions edit the cart using Shopify mutation cartLinesUpdate and cartLinesRemove, then query the cart.  
 On response to cart query the internal representation of PAM data is updated.  
+
+### BUY PGB PRODUCTS
+You buy an empty box - a normal purchase transaction. Adding products to the box does not require a purchase transaction - products are just added to the attributes for the purchased box.
+The PGB box must first be purchased
+The attributes structure for the cart line item is created in createBoxEmptyAttributes
+The box is then purchased with these attributes.
+Purchasing an item calls buyPGBProductsWithQuantity
+This simply updates the attributes "contents" field
+Editing product quantities is also handled by buyPGBProductwWithQuantity
+
 
 <div style="page-break-after: always"></div>
 
@@ -363,12 +388,6 @@ np.js initialisation calls the following functions which parse and create json o
   }
 ]
 
-### TODO ******************* why both enabled and pam_enabled ***********************************
-### TODO ******************  why 2 objects for non pam and pam *******************************
-  
-
-
-
 ## VUE COMPONENTS
 ### HEADER BAR 
 [npSearch](#npSearch)
@@ -393,6 +412,15 @@ if collection.handle = pick-and-mix
 +    [pamBagVue](#pamBagVue)
 +    [informNoStockPopupVue](#informNoStockPopupVue)
 +    [pamGiftwrapVue](#pamGiftwrapVue)  
+
+if collection.handle = personalised-gift-boxes 
+  no vue components - just a simple liquid grid
+
+if collection.handle contains personalised-gift-box (ie - christmas-personalised-gift-box)
+ + [npProductGridVue](#npProductGridVue)
+ + [pgbBoxViewHeaderVue](#pgb_box_view_header_vue)
+ + [PGBBoxVue](#pgb_box_vue)
+
 
 if collection.handle = gift-cards
 + [npProductGridVue](#npProductGridVue) (np_collection_gift_cards_grid)  
@@ -478,6 +506,12 @@ if collection.handle = subscriptions
 + np_collection_pam_grid_v.liquid
 
 
+### PGB COMPONENTS
++ <a id="npProductGridVue">npProductGridVue
+ + [pgbBoxViewHeaderVue](#pgb_box_view_header_vue)
+ + [PGBBoxVue](#pgb_box_vue)
+
+
 
 ### PRODUCTS IN GRID
 <a id="npProductGridVue">npProductGridVue</a> (many variations of this component in different files)
@@ -497,8 +531,7 @@ if collection.handle = subscriptions
 + #customer_addresses in page.addresses.liquid
 + page.addresses.liquid
 
-TODO ******************************** USED? ******************************************
-??? <a id="pamCustomerLoginHeaderVue">pamCustomerLoginHeaderVue</a> USED???
+<a id="pamCustomerLoginHeaderVue">pamCustomerLoginHeaderVue</a> USED???
 np-customer-login-header-vj.liquid
 #pam_customer_login_header_vue in np-customer-login-header-vj.liquid
 theme.liquid
@@ -520,7 +553,6 @@ theme.liquid
 + #header_search_vue in np_search_vj.liquid and #header_search_mobile_vue  in np_search_mobile_vj.liquid
 + theme.liquid
 
-TODO **********************************************************************************************  
 <a id="pamSearchVue">pamSearchVue</a> (used? as a popup?)
 + np-search-popup-j.liquid 
 + #pam_search_vue  in np-search-popup-v.liquid
@@ -561,6 +593,23 @@ TODO ***************************************************************************
 
 <a id="quantity_checking"></a>
 ### CHECKING QUANTITIES  
+### PRE PURCHASE
+When a product is fetched for display in the grid the available quantity is included in the graphql request.
+When shopper adds a product to basket, the requested quantity is checked against available quantity.
+If available quantity is 0 then the product is displayed but the buy button is replaced with a "request email when re-stocked" button.
+If shopper attempts to buy a quantity greater than available, then 
+a) all available stock is added to the basket
+b) on return from the purchase transaction, a popup is displayed to inform that all available have been purchased, and a button to request email when re-stocked.
+
+Checking available stock is complicated.
+Shopify doesn't update stock levels until shopper checks out, so quantities already in the basket have to be subtracted from the Shopify reported stock levels.
+
+It can happen that shopper A adds a low stock item to the basket but shopper B exhausts available stock and checks out first.
+In that case the product will still show in the basket for shopper A, but as part of Shopify's checkout procedure it will be removed.
+There is nothing we can do to avoid this situation. It will cause problems where metadata has been created which relates to quantities in the basket (ie. Shopify will edit quantities, but we already have created the metadata). Chocolate  Emporium have been informed that this is a limitation of the system.
+
+
+### POST PURCHASE
 The cart contents are monitored whenever the cart is updated to ensure that contents match expectations.  
 This is achieved by the checksObject in attributes/np_checks.js  
 
